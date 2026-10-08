@@ -1,0 +1,101 @@
+<svg width="1280" height="800" viewBox="0 0 1280 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1280" y2="800" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F7F5FA"/>
+      <stop offset="1" stop-color="#F2EEFA"/>
+    </linearGradient>
+    <linearGradient id="laptopGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#F8F7FB"/>
+      <stop offset="1" stop-color="#E7E3F1"/>
+    </linearGradient>
+    <linearGradient id="purpleGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#7E5CD7"/>
+      <stop offset="1" stop-color="#5E3BB1"/>
+    </linearGradient>
+    <linearGradient id="bookGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#7E6AE6"/>
+      <stop offset="1" stop-color="#5E4DC5"/>
+    </linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="160%">
+      <feDropShadow dx="0" dy="12" stdDeviation="18" flood-color="#7B5ECA" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+
+  <rect width="1280" height="800" fill="url(#bgGrad)"/>
+
+  <circle cx="180" cy="250" r="120" fill="#E8E0F6" opacity="0.75"/>
+  <circle cx="1100" cy="130" r="100" fill="#E8E0F6" opacity="0.5"/>
+
+  <g opacity="0.9">
+    <path d="M613 146C604 124 621 98 650 99C677 100 696 121 690 146C684 170 610 163 613 146Z" fill="#E4D9F5"/>
+    <path d="M683 179C705 153 733 146 753 160C771 172 780 196 770 215C759 236 729 246 704 238C675 229 662 203 683 179Z" fill="#E4D9F5"/>
+    <path d="M573 182C548 163 530 148 516 158C488 179 495 232 528 246C558 259 588 219 573 182Z" fill="#E4D9F5"/>
+  </g>
+
+  <g filter="url(#softShadow)">
+    <rect x="489" y="90" width="260" height="190" rx="22" fill="url(#purpleGrad)"/>
+    <path d="M610 146L646 146C653 146 659 151 659 158V168C659 175 653 181 646 181H610C603 181 597 175 597 168V158C597 151 603 146 610 146Z" fill="#EDDEF8" opacity="0.15"/>
+    <text x="619" y="195" text-anchor="middle" fill="#F8F5FF" font-family="Segoe UI, Arial, sans-serif" font-size="126" font-weight="800">SC</text>
+  </g>
+
+  <g opacity="0.9">
+    <path d="M700 100L724 70" stroke="#C6B6E7" stroke-width="6" stroke-linecap="round"/>
+    <path d="M743 106L770 80" stroke="#C6B6E7" stroke-width="6" stroke-linecap="round"/>
+    <path d="M694 123L665 95" stroke="#C6B6E7" stroke-width="6" stroke-linecap="round"/>
+  </g>
+
+  <g opacity="0.85">
+    <path d="M939 540C915 474 933 408 1001 384C1075 359 1137 396 1162 447C1191 507 1179 580 1127 612C1074 644 979 620 939 540Z" fill="#E8E0F7"/>
+    <path d="M1049 526C1031 521 1018 515 1002 501C987 489 980 474 979 456C975 429 987 411 1004 400C1035 380 1091 391 1114 426C1139 463 1136 533 1049 526Z" fill="#F7F4FC"/>
+    <path d="M1030 444C1017 429 1016 407 1034 392C1056 374 1090 379 1107 404C1123 428 1118 460 1096 480C1077 499 1045 494 1030 444Z" fill="#F4ECFD"/>
+  </g>
+
+  <g transform="translate(0,0)" filter="url(#softShadow)">
+    <rect x="213" y="260" width="810" height="440" rx="26" fill="#F5F1FA" stroke="#B8A9D8" stroke-opacity="0.3"/>
+    <rect x="270" y="310" width="430" height="260" rx="18" fill="#F1ECFC"/>
+    <rect x="302" y="338" width="360" height="16" rx="8" fill="#C8B9E5" opacity="0.8"/>
+    <rect x="302" y="375" width="300" height="12" rx="6" fill="#C8B9E5" opacity="0.75"/>
+    <rect x="302" y="406" width="330" height="12" rx="6" fill="#C8B9E5" opacity="0.75"/>
+    <rect x="302" y="437" width="270" height="12" rx="6" fill="#C8B9E5" opacity="0.75"/>
+    <rect x="302" y="468" width="300" height="12" rx="6" fill="#C8B9E5" opacity="0.75"/>
+    <rect x="302" y="499" width="260" height="12" rx="6" fill="#C8B9E5" opacity="0.75"/>
+    <rect x="302" y="530" width="350" height="12" rx="6" fill="#C8B9E5" opacity="0.75"/>
+
+    <g>
+      <circle cx="723" cy="431" r="62" fill="#E9E2F8"/>
+      <circle cx="723" cy="430" r="39" fill="#C9BFE7"/>
+      <circle cx="722" cy="412" r="21" fill="#F5F0FF"/>
+      <path d="M697 470C701 447 716 438 735 438C754 438 769 447 773 470V477H697V470Z" fill="#F5F0FF"/>
+      <path d="M680 520H767C770 520 773 523 773 526V535C773 538 770 541 767 541H680C677 541 674 538 674 535V526C674 523 677 520 680 520Z" fill="#D7CFF1"/>
+    </g>
+
+    <rect x="586" y="507" width="190" height="56" rx="13" fill="url(#purpleGrad)"/>
+    <path d="M625 533H721" stroke="#F5F0FF" stroke-width="6" stroke-linecap="round"/>
+    <path d="M652 543H692" stroke="#F5F0FF" stroke-width="6" stroke-linecap="round"/>
+  </g>
+
+  <g filter="url(#softShadow)">
+    <rect x="220" y="620" width="790" height="82" rx="20" fill="url(#laptopGrad)"/>
+    <rect x="205" y="640" width="830" height="30" rx="15" fill="#D8D2E9"/>
+    <path d="M202 670H1032C1032 688 1018 704 995 704H243C220 704 202 688 202 670Z" fill="#D8D2E9"/>
+  </g>
+
+  <g>
+    <rect x="110" y="510" width="124" height="120" rx="14" fill="url(#bookGrad)" opacity="0.88"/>
+    <text x="172" y="560" text-anchor="middle" fill="#F8F5FF" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700">Practice</text>
+    <path d="M120 548H185" stroke="#F2EBFF" stroke-opacity="0.4" stroke-width="5"/>
+
+    <rect x="158" y="530" width="150" height="130" rx="14" fill="url(#bookGrad)" opacity="0.9"/>
+    <text x="232" y="582" text-anchor="middle" fill="#F8F5FF" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700">Learn</text>
+    <path d="M168 570H286" stroke="#F2EBFF" stroke-opacity="0.4" stroke-width="5"/>
+
+    <rect x="206" y="554" width="152" height="142" rx="14" fill="url(#bookGrad)" opacity="0.95"/>
+    <text x="282" y="606" text-anchor="middle" fill="#F8F5FF" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700">Grow</text>
+    <path d="M216 593H345" stroke="#F2EBFF" stroke-opacity="0.4" stroke-width="5"/>
+  </g>
+
+  <g opacity="0.85">
+    <path d="M1114 450C1175 436 1213 462 1231 505C1247 545 1238 588 1200 610C1161 632 1103 628 1085 594C1068 561 1092 466 1114 450Z" fill="#E5DCF7"/>
+    <path d="M1128 516C1168 497 1207 512 1218 548C1228 580 1201 607 1164 609C1128 611 1090 585 1090 553C1090 538 1104 532 1128 516Z" fill="#F4EEFB"/>
+  </g>
+</svg>

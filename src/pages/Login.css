@@ -1,0 +1,395 @@
+
+@import "./Auth.css";
+
+/* ========================================= */
+/* LOGIN PAGE - SPLIT CARD DESIGN */
+/* ========================================= */
+
+.container.mt-5 {
+    min-height: 100vh;
+
+    margin-top: 0 !important;
+    padding: 40px 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        radial-gradient(
+            circle at 15% 20%,
+            rgba(205, 181, 245, 0.45),
+            transparent 32%
+        ),
+        linear-gradient(
+            135deg,
+            #f5efff 0%,
+            #fbf9ff 55%,
+            #f1e8ff 100%
+        );
+
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+
+/* ========================================= */
+/* REMOVE BOOTSTRAP ROW EFFECT */
+/* ========================================= */
+
+.container.mt-5 .row {
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+
+    margin: 0;
+}
+
+
+/* ========================================= */
+/* LOGIN COLUMN */
+/* ========================================= */
+
+.container.mt-5 .col-md-5 {
+    width: 100%;
+    max-width: 760px;
+
+    padding: 0;
+}
+
+
+/* ========================================= */
+/* MAIN CARD */
+/* ========================================= */
+
+.container.mt-5 .card {
+    position: relative;
+
+    width: 100%;
+    min-height: 500px;
+
+    padding: 0 !important;
+
+    overflow: hidden;
+
+    border: none !important;
+
+    border-radius: 22px !important;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 25px 60px rgba(68, 36, 120, 0.16) !important;
+
+    display: flex;
+
+    align-items: stretch;
+}
+
+
+/* ========================================= */
+/* LEFT INFORMATION PANEL */
+/* ========================================= */
+
+.container.mt-5 .card::before {
+    content:
+        "WELCOME BACK\A"
+        "\A"
+        "Prepare smarter.\A"
+        "Practice better.\A"
+        "Perform with\A"
+        "confidence.\A"
+        "\A"
+        "Continue your interview preparation journey\A"
+        "and improve your performance with every\A"
+        "practice session.";
+
+    white-space: pre-line;
+
+    position: absolute;
+
+    left: 0;
+    top: 0;
+    bottom: 0;
+
+    width: 50%;
+
+    box-sizing: border-box;
+
+    padding: 58px 42px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #eee2ff 0%,
+            #e6d5ff 100%
+        );
+
+    color: #241044;
+
+    font-size: 16px;
+
+    font-weight: 500;
+
+    line-height: 1.65;
+
+    z-index: 1;
+}
+
+
+/* ========================================= */
+/* RIGHT LOGIN CONTENT */
+/* ========================================= */
+
+.container.mt-5 .card > * {
+    position: relative;
+    z-index: 2;
+}
+
+
+/* Move actual login content to right */
+
+.container.mt-5 .card {
+    padding-left: 50% !important;
+}
+
+
+/* ========================================= */
+/* LOGIN TITLE */
+/* ========================================= */
+
+.container.mt-5 .card h2 {
+    margin: 0 !important;
+
+    padding: 55px 40px 25px;
+
+    color: #241044;
+
+    font-size: 31px;
+
+    font-weight: 800;
+
+    text-align: left;
+}
+
+
+/* ========================================= */
+/* FORM */
+/* ========================================= */
+
+.container.mt-5 .card form {
+    padding: 0 40px 35px;
+}
+
+
+/* ========================================= */
+/* LABELS */
+/* ========================================= */
+
+.container.mt-5 .form-label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #321263;
+
+    font-size: 13px;
+
+    font-weight: 700;
+}
+
+
+/* ========================================= */
+/* INPUTS */
+/* ========================================= */
+
+.container.mt-5 .form-control {
+    width: 100%;
+
+    height: 48px;
+
+    box-sizing: border-box;
+
+    padding: 12px 14px;
+
+    border: 1px solid #ddd0f1;
+
+    border-radius: 9px;
+
+    background: #fbf9ff;
+
+    color: #2b174d;
+
+    font-size: 14px;
+
+    box-shadow: none;
+
+    transition: 0.2s;
+}
+
+
+.container.mt-5 .form-control::placeholder {
+    color: #9991a5;
+}
+
+
+.container.mt-5 .form-control:focus {
+    border-color: #7040c5;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 0 0 3px rgba(112, 64, 197, 0.10);
+}
+
+
+/* ========================================= */
+/* LOGIN BUTTON */
+/* ========================================= */
+
+.container.mt-5 .btn-primary {
+    width: 100%;
+
+    height: 46px;
+
+    margin-top: 8px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #7040c5,
+            #5b2aa8
+        );
+
+    color: white;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    box-shadow:
+        0 8px 20px rgba(91, 42, 168, 0.25);
+
+    transition: all 0.25s ease;
+}
+
+
+.container.mt-5 .btn-primary:hover {
+    background:
+        linear-gradient(
+            90deg,
+            #5b2aa8,
+            #482087
+        );
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 12px 25px rgba(91, 42, 168, 0.30);
+}
+
+
+/* ========================================= */
+/* LEFT PANEL DECORATION */
+/* ========================================= */
+
+.container.mt-5 .card::after {
+    content: "SC";
+
+    position: absolute;
+
+    left: 42px;
+    top: 45px;
+
+    width: 42px;
+    height: 42px;
+
+    border-radius: 10px;
+
+    background: #5b2aa8;
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 14px;
+
+    font-weight: 800;
+
+    z-index: 3;
+
+    box-shadow:
+        0 6px 15px rgba(91, 42, 168, 0.22);
+}
+
+
+/* ========================================= */
+/* MOBILE */
+/* ========================================= */
+
+@media (max-width: 750px) {
+
+    .container.mt-5 {
+        padding: 25px 15px;
+    }
+
+
+    .container.mt-5 .card {
+        min-height: auto;
+
+        padding-left: 0 !important;
+
+        flex-direction: column;
+    }
+
+
+    /* Hide left information panel on mobile */
+
+    .container.mt-5 .card::before {
+        display: none;
+    }
+
+
+    .container.mt-5 .card::after {
+        display: none;
+    }
+
+
+    .container.mt-5 .card h2 {
+        padding: 35px 30px 20px;
+
+        text-align: center;
+    }
+
+
+    .container.mt-5 .card form {
+        padding: 0 30px 35px;
+    }
+
+}
+
+
+/* ========================================= */
+/* SMALL MOBILE */
+/* ========================================= */
+
+@media (max-width: 450px) {
+
+    .container.mt-5 .card {
+        border-radius: 16px !important;
+    }
+
+
+    .container.mt-5 .card h2 {
+        font-size: 27px;
+    }
+
+}

@@ -1,0 +1,958 @@
+/* =========================================
+   FINAL SETTINGS SIZE & LAYOUT FIX
+   ========================================= */
+
+/* Main content uses the complete screen */
+.settings-main {
+    margin-left: 194px;
+    width: calc(100% - 194px);
+    min-height: 100vh;
+    padding: 30px 32px 50px;
+    box-sizing: border-box;
+}
+
+
+/* Header */
+.settings-topbar {
+    margin-bottom: 28px;
+}
+
+.settings-topbar p {
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    margin-bottom: 8px;
+}
+
+.settings-topbar h1 {
+    font-size: 32px;
+    line-height: 40px;
+    font-weight: 800;
+    margin: 0;
+    color: #111827;
+}
+
+.settings-topbar span {
+    font-size: 15px;
+    margin-top: 6px;
+    color: #64748b;
+}
+
+
+/* =========================================
+   CARDS - FULL WIDTH
+   ========================================= */
+
+.settings-section {
+    width: 100%;
+    max-width: none;
+    box-sizing: border-box;
+
+    background: #ffffff;
+    border-radius: 14px;
+
+    padding: 23px 25px;
+    margin-bottom: 20px;
+
+    border: 1px solid #e5e7eb;
+
+    box-shadow: 0 3px 12px rgba(30, 41, 59, 0.04);
+}
+
+
+/* =========================================
+   SECTION HEADINGS
+   ========================================= */
+
+.settings-section-title {
+    gap: 14px;
+    padding-bottom: 20px;
+}
+
+.settings-section-title > span {
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
+    font-size: 16px;
+}
+
+.settings-section-title h2 {
+    font-size: 19px;
+    line-height: 24px;
+    font-weight: 700;
+}
+
+.settings-section-title p {
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+
+/* =========================================
+   GENERAL SETTINGS ROW
+   ========================================= */
+
+.setting-row {
+    min-height: 88px;
+}
+
+.setting-info h3 {
+    font-size: 16px;
+    line-height: 21px;
+    margin-bottom: 6px;
+}
+
+.setting-info p {
+    font-size: 13px;
+    line-height: 19px;
+}
+
+
+/* =========================================
+   TOGGLE
+   ========================================= */
+
+.toggle {
+    width: 42px;
+    height: 24px;
+}
+
+.slider:before {
+    width: 20px;
+    height: 20px;
+    top: 2px;
+    left: 2px;
+}
+
+.toggle input:checked + .slider:before {
+    transform: translateX(18px);
+}
+
+
+/* =========================================
+   ACCOUNT ROW
+   ========================================= */
+
+.account-setting-row {
+    min-height: 90px;
+}
+
+.account-setting-row h3 {
+    font-size: 16px;
+    line-height: 21px;
+    margin-bottom: 6px;
+}
+
+.account-setting-row p {
+    font-size: 13px;
+    line-height: 19px;
+}
+
+
+/* Account buttons */
+
+.account-setting-row button {
+    padding: 11px 17px;
+    font-size: 13px;
+    border-radius: 8px;
+}
+
+
+/* =========================================
+   DANGER SECTION
+   ========================================= */
+
+.danger-section {
+    border-color: #f0dada;
+}
+
+
+/* =========================================
+   BACK BUTTON
+   ========================================= */
+
+.back-dashboard {
+    padding: 12px 19px;
+    font-size: 14px;
+    border-radius: 8px;
+}
+
+
+/* =========================================
+   SIDEBAR - MATCH DASHBOARD
+   ========================================= */
+
+.settings-sidebar {
+    width: 194px;
+    padding: 24px 14px;
+}
+
+.settings-logo h2 {
+    font-size: 15px;
+    line-height: 18px;
+}
+
+.settings-logo span {
+    font-size: 11px;
+}
+
+.settings-nav button {
+    height: 44px;
+    font-size: 13px;
+}
+
+.settings-nav button span {
+    font-size: 14px;
+}
+
+.settings-logout {
+    height: 42px;
+    font-size: 13px;
+}
+
+
+/* =========================================
+   LARGE SCREENS
+   ========================================= */
+
+@media (min-width: 1400px) {
+
+    .settings-main {
+        padding: 32px 34px 50px;
+    }
+
+    .settings-topbar h1 {
+        font-size: 34px;
+    }
+
+    .settings-section {
+        padding: 25px 28px;
+    }
+
+    .settings-section-title h2 {
+        font-size: 20px;
+    }
+
+    .setting-info h3,
+    .account-setting-row h3 {
+        font-size: 17px;
+    }
+
+    .setting-info p,
+    .account-setting-row p {
+        font-size: 14px;
+    }
+}
+
+/* ================================
+   SETTINGS PAGE
+================================ */
+
+.settings-page {
+    min-height: 100vh;
+    display: flex;
+    background: #f5f6fb;
+    color: #111827;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+/* ================================
+   SIDEBAR
+================================ */
+
+.settings-sidebar {
+    width: 194px;
+    min-height: 100vh;
+    background: #111827;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 24px 14px;
+    box-sizing: border-box;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+}
+
+
+/* LOGO */
+
+.settings-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 4px 7px 28px;
+}
+
+.settings-logo-icon {
+    width: 34px;
+    height: 34px;
+    background: #6d4aff;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.settings-logo h2 {
+    margin: 0;
+    font-size: 15px;
+    line-height: 17px;
+    color: white;
+    font-weight: 700;
+}
+
+.settings-logo span {
+    display: block;
+    margin-top: 2px;
+    color: #aab2c5;
+    font-size: 11px;
+}
+
+
+/* ================================
+   NAVIGATION
+================================ */
+
+.settings-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.settings-nav button {
+    width: 100%;
+    height: 43px;
+    border: none;
+    background: transparent;
+    color: #c6ccda;
+    border-radius: 7px;
+    padding: 0 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: left;
+    transition: 0.2s ease;
+}
+
+.settings-nav button span {
+    width: 16px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.settings-nav button:hover {
+    background: #1d2638;
+    color: white;
+}
+
+
+/* ACTIVE SETTINGS */
+
+.settings-nav .settings-active {
+    background: #292f42;
+    color: white;
+    border-left: 2px solid #8b5cf6;
+    padding-left: 12px;
+}
+
+.settings-nav .settings-active span {
+    color: #a78bfa;
+}
+
+
+/* ================================
+   SIDEBAR BOTTOM
+================================ */
+
+.settings-sidebar-bottom {
+    margin-top: auto;
+}
+
+.settings-logout {
+    width: 100%;
+    height: 41px;
+    border: none;
+    border-radius: 7px;
+    background: #241d2d;
+    color: #fca5a5;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 14px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.settings-logout:hover {
+    background: #322236;
+}
+
+
+/* ================================
+   MAIN CONTENT
+================================ */
+
+.settings-main {
+    margin-left: 194px;
+    width: calc(100% - 194px);
+    min-height: 100vh;
+    padding: 30px 32px 50px;
+    box-sizing: border-box;
+}
+
+
+/* ================================
+   TOP HEADER
+================================ */
+
+.settings-topbar {
+    margin-bottom: 24px;
+}
+
+.settings-topbar p {
+    margin: 0 0 7px;
+    color: #633cff;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.settings-topbar h1 {
+    margin: 0;
+    color: #111827;
+    font-size: 29px;
+    line-height: 36px;
+    font-weight: 800;
+}
+
+.settings-topbar span {
+    display: block;
+    margin-top: 5px;
+    color: #64748b;
+    font-size: 14px;
+}
+
+
+/* ================================
+   SETTINGS CARDS
+================================ */
+
+.settings-section {
+    width: 100%;
+    max-width: 1000px;
+    background: white;
+    border-radius: 13px;
+    border: 1px solid #e7e9f0;
+    padding: 20px 22px;
+    margin-bottom: 18px;
+    box-sizing: border-box;
+    box-shadow: 0 3px 12px rgba(30, 41, 59, 0.04);
+}
+
+
+/* ================================
+   SECTION TITLE
+================================ */
+
+.settings-section-title {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding-bottom: 17px;
+    border-bottom: 1px solid #e9eaf0;
+}
+
+.settings-section-title > span {
+    width: 31px;
+    height: 31px;
+    border-radius: 8px;
+    background: #eee8ff;
+    color: #6d3ff5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.settings-section-title h2 {
+    margin: 0;
+    color: #111827;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.settings-section-title p {
+    margin: 4px 0 0;
+    color: #64748b;
+    font-size: 12px;
+}
+
+
+/* ================================
+   GENERAL SETTING ROW
+================================ */
+
+.setting-row {
+    min-height: 76px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #edf0f4;
+}
+
+.setting-row:last-child {
+    border-bottom: none;
+}
+
+.setting-info h3 {
+    margin: 0 0 5px;
+    color: #172033;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.setting-info p {
+    margin: 0;
+    color: #64748b;
+    font-size: 12px;
+}
+
+
+/* ================================
+   TOGGLE
+================================ */
+
+.toggle {
+    position: relative;
+    width: 36px;
+    height: 21px;
+    flex-shrink: 0;
+}
+
+.toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    background: #d8d4e3;
+    border-radius: 30px;
+    transition: 0.2s;
+}
+
+.slider:before {
+    content: "";
+    position: absolute;
+    width: 17px;
+    height: 17px;
+    left: 2px;
+    top: 2px;
+    background: white;
+    border-radius: 50%;
+    transition: 0.2s;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.toggle input:checked + .slider {
+    background: #7042d9;
+}
+
+.toggle input:checked + .slider:before {
+    transform: translateX(15px);
+}
+
+
+/* ================================
+   ACCOUNT ROW
+================================ */
+
+.account-setting-row {
+    min-height: 78px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #edf0f4;
+    gap: 20px;
+}
+
+.account-setting-row:last-child {
+    border-bottom: none;
+}
+
+.account-setting-row h3 {
+    margin: 0 0 5px;
+    color: #172033;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.account-setting-row p {
+    margin: 0;
+    color: #64748b;
+    font-size: 12px;
+}
+
+.account-setting-row button {
+    border: 1px solid #cdbcf8;
+    background: white;
+    color: #633cff;
+    border-radius: 7px;
+    padding: 9px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: 0.2s ease;
+}
+
+.account-setting-row button:hover {
+    background: #f4efff;
+}
+
+
+/* ================================
+   DANGER SECTION
+================================ */
+
+.danger-section {
+    border-color: #f1dede;
+}
+
+.danger-section .settings-section-title > span {
+    background: #fff0f0;
+    color: #e16a6a;
+}
+
+.danger-button {
+    border-color: #f1bcbc !important;
+    color: #dc5555 !important;
+}
+
+.danger-button:hover {
+    background: #fff5f5 !important;
+}
+
+
+/* ================================
+   BACK TO DASHBOARD
+================================ */
+
+.back-dashboard {
+    margin-top: 2px;
+    border: none;
+    background: #6234c9;
+    color: white;
+    border-radius: 7px;
+    padding: 10px 17px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(98, 52, 201, 0.2);
+    transition: 0.2s ease;
+}
+
+.back-dashboard:hover {
+    background: #5128b5;
+    transform: translateY(-1px);
+}
+
+
+/* ================================
+   RESPONSIVE
+================================ */
+
+@media (max-width: 900px) {
+
+    .settings-sidebar {
+        width: 175px;
+    }
+
+    .settings-main {
+        margin-left: 175px;
+        width: calc(100% - 175px);
+        padding: 25px;
+    }
+
+    .settings-section {
+        max-width: 100%;
+    }
+}
+
+
+@media (max-width: 700px) {
+
+    .settings-sidebar {
+        width: 100%;
+        height: auto;
+        min-height: auto;
+        position: relative;
+        padding: 15px;
+    }
+
+    .settings-logo {
+        padding-bottom: 15px;
+    }
+
+    .settings-nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .settings-nav button {
+        width: auto;
+        flex: 1;
+        min-width: 130px;
+    }
+
+    .settings-sidebar-bottom {
+        margin-top: 12px;
+    }
+
+    .settings-main {
+        margin-left: 0;
+        width: 100%;
+        padding: 22px 16px 40px;
+    }
+
+    .settings-topbar h1 {
+        font-size: 26px;
+    }
+}
+
+
+@media (max-width: 500px) {
+
+    .settings-section {
+        padding: 16px;
+    }
+
+    .setting-row,
+    .account-setting-row {
+        min-height: 85px;
+    }
+
+    .account-setting-row {
+        align-items: flex-start;
+        flex-direction: column;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .account-setting-row button {
+        align-self: flex-start;
+    }
+
+    .settings-topbar h1 {
+        font-size: 24px;
+    }
+}
+
+/* Keep Settings typography and desktop content width aligned with Dashboard. */
+.settings-page {
+    width: 100%;
+    font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+}
+
+.settings-sidebar {
+    width: 255px;
+}
+
+.settings-main {
+    flex: 0 0 calc(100% - 255px);
+    width: calc(100% - 255px);
+    max-width: none;
+    margin-left: 255px;
+}
+
+.settings-section {
+    width: 100%;
+    max-width: none;
+}
+
+.settings-main {
+    font-size: 16px;
+}
+
+.settings-logo h2 {
+    font-size: 18px;
+    line-height: 1.25;
+}
+
+.settings-logo span {
+    font-size: 14px;
+}
+
+.settings-nav button,
+.settings-sidebar-bottom button {
+    font-size: 16px;
+}
+
+.settings-nav button span,
+.settings-sidebar-bottom button span {
+    font-size: 18px;
+}
+
+.settings-topbar p {
+    font-size: 14px;
+}
+
+.settings-topbar h1 {
+    font-size: clamp(30px, 2.5vw, 38px);
+    line-height: 1.2;
+}
+
+.settings-topbar span {
+    font-size: 16px;
+}
+
+.settings-section-title h2 {
+    font-size: 21px;
+}
+
+.settings-section-title p {
+    font-size: 15px;
+}
+
+.setting-info h3,
+.account-setting-row h3 {
+    font-size: 18px;
+}
+
+.setting-info p,
+.account-setting-row p {
+    font-size: 15px;
+    line-height: 1.55;
+}
+
+.account-setting-row button,
+.back-dashboard {
+    font-size: 15px;
+}
+
+@media (max-width: 900px) {
+    .settings-sidebar {
+        width: 175px;
+    }
+
+    .settings-main {
+        flex-basis: calc(100% - 175px);
+        width: calc(100% - 175px);
+        margin-left: 175px;
+    }
+}
+
+@media (max-width: 700px) {
+    .settings-sidebar {
+        width: 100%;
+    }
+
+    .settings-main {
+        flex-basis: 100%;
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .settings-nav button {
+        font-size: 14px;
+    }
+}
+
+/* Dark mode overrides come last so they take precedence over page defaults. */
+.settings-page.settings-dark {
+    background: #111827;
+    color: #e5e7eb;
+}
+
+.settings-page.settings-dark .settings-main {
+    background: #111827;
+}
+
+.settings-page.settings-dark .settings-sidebar {
+    background: #0b1220;
+    border-color: #273244;
+}
+
+.settings-page.settings-dark .settings-section {
+    background: #1f2937;
+    border-color: #374151;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.16);
+}
+
+.settings-page.settings-dark .settings-topbar h1,
+.settings-page.settings-dark .settings-section-title h2,
+.settings-page.settings-dark .setting-info h3,
+.settings-page.settings-dark .account-setting-row h3 {
+    color: #f9fafb;
+}
+
+.settings-page.settings-dark .settings-topbar span,
+.settings-page.settings-dark .settings-section-title p,
+.settings-page.settings-dark .setting-info p,
+.settings-page.settings-dark .account-setting-row p {
+    color: #cbd5e1;
+}
+
+.settings-page.settings-dark .settings-section-title,
+.settings-page.settings-dark .setting-row,
+.settings-page.settings-dark .account-setting-row {
+    border-color: #374151;
+}
+
+.settings-page.settings-dark .settings-section-title > span {
+    background: #31234b;
+    color: #c4b5fd;
+}
+
+.settings-page.settings-dark .settings-nav button {
+    color: #cbd5e1;
+}
+
+.settings-page.settings-dark .settings-nav button:hover,
+.settings-page.settings-dark .settings-nav .settings-active {
+    background: #273449;
+    color: #ffffff;
+}
+
+.settings-page.settings-dark .account-setting-row button {
+    background: #273449;
+    border-color: #4b5563;
+    color: #ddd6fe;
+}
+
+.settings-page.settings-dark .account-setting-row button:hover {
+    background: #334155;
+}
+
+.settings-page.settings-dark .danger-section {
+    border-color: #713f46;
+}
+
+.settings-page.settings-dark .danger-section .settings-section-title > span {
+    background: #4c2932;
+    color: #fda4af;
+}
+
+.settings-page.settings-dark .danger-button {
+    background: #3b242b !important;
+    border-color: #713f46 !important;
+    color: #fecdd3 !important;
+}
+
+.settings-page.settings-dark .danger-button:hover {
+    background: #512b35 !important;
+}

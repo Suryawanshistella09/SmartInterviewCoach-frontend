@@ -1,0 +1,651 @@
+/* ========================================
+   PRACTICE INTERVIEW PAGE
+======================================== */
+
+.practice-back-btn {
+    display: inline-flex;
+    align-items: center;
+
+    margin-bottom: 25px;
+    padding: 10px 16px;
+
+    border: 1px solid #dddfe7;
+    border-radius: 9px;
+
+    background: #ffffff;
+    color: #172033;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.practice-back-btn:hover {
+    border-color: #6c3df5;
+    color: #6c3df5;
+    transform: translateX(-2px);
+}
+
+
+.practice-page {
+    width: 100%;
+    min-height: 100vh;
+
+    padding: 45px 50px;
+
+    background: #f6f7fb;
+
+    box-sizing: border-box;
+}
+
+
+/* ========================================
+   HEADER
+======================================== */
+
+.practice-header {
+    width: 100%;
+    margin-bottom: 35px;
+}
+
+.page-label {
+    margin: 0 0 10px;
+
+    color: #6c3df5;
+
+    font-size: 15px;
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+}
+
+.practice-header h1 {
+    margin: 0 0 12px;
+
+    color: #08060d;
+
+    font-size: 40px;
+    font-weight: 700;
+
+    line-height: 1.2;
+}
+
+.practice-header p:last-child {
+    margin: 0;
+
+    color: #6b6375;
+
+    font-size: 19px;
+    line-height: 1.6;
+}
+
+
+/* ========================================
+   MAIN CONTAINER
+======================================== */
+
+.practice-container {
+    width: 100%;
+    max-width: none;
+}
+
+
+/* ========================================
+   MAIN WHITE CARD
+======================================== */
+
+.selection-card {
+    width: 100%;
+
+    padding: 38px;
+
+    background: #ffffff;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.06);
+
+    box-sizing: border-box;
+}
+
+.selection-card h2 {
+    margin: 0 0 25px;
+
+    color: #08060d;
+
+    font-size: 26px;
+    font-weight: 700;
+
+    line-height: 1.3;
+}
+
+
+/* ========================================
+   INTERVIEW TYPE GRID
+======================================== */
+
+.type-grid {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 22px;
+
+    margin-bottom: 42px;
+}
+
+
+/* ========================================
+   INTERVIEW TYPE CARD
+======================================== */
+
+.type-card {
+    width: 100%;
+    min-height: 190px;
+
+    padding: 25px;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    text-align: left;
+
+    background: #ffffff;
+
+    border: 2px solid #e1e2e8;
+
+    border-radius: 16px;
+
+    color: #08060d;
+
+    cursor: pointer;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+
+    box-sizing: border-box;
+}
+
+
+/* Hover */
+
+.type-card:hover {
+    border-color: #8b5cf6;
+
+    box-shadow:
+        0 8px 25px rgba(108, 61, 245, 0.12);
+
+    transform: translateY(-2px);
+}
+
+
+/* Selected */
+
+.type-card.active {
+    border-color: #6c3df5;
+
+    background: #faf8ff;
+
+    box-shadow:
+        0 8px 25px rgba(108, 61, 245, 0.12);
+}
+
+
+/* ========================================
+   TYPE ICON
+======================================== */
+
+.type-icon {
+    width: 50px;
+    height: 50px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 20px;
+
+    border-radius: 12px;
+
+    background: #eee9ff;
+
+    color: #6c3df5;
+
+    font-size: 24px;
+    font-weight: 700;
+}
+
+
+/* ========================================
+   TYPE CARD TITLE
+======================================== */
+
+.type-card strong {
+    display: block;
+
+    margin-bottom: 10px;
+
+    color: #08060d;
+
+    font-size: 20px;
+    font-weight: 700;
+
+    line-height: 1.4;
+}
+
+
+/* ========================================
+   TYPE CARD DESCRIPTION
+======================================== */
+
+.type-card small {
+    display: block;
+
+    color: #6b6375;
+
+    font-size: 16px;
+    font-weight: 400;
+
+    line-height: 1.6;
+}
+
+
+/* ========================================
+   SUBJECT SECTION
+======================================== */
+
+.subject-title {
+    margin-top: 0 !important;
+    margin-bottom: 20px !important;
+
+    font-size: 26px !important;
+}
+
+
+/* ========================================
+   SUBJECT GRID
+======================================== */
+
+.subject-grid {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 15px;
+
+    margin-bottom: 42px;
+}
+
+
+/* ========================================
+   SUBJECT CARD
+======================================== */
+
+.subject-card {
+    width: 100%;
+    min-height: 60px;
+
+    padding: 14px 18px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    background: #ffffff;
+
+    border: 2px solid #e1e2e8;
+
+    border-radius: 10px;
+
+    color: #172033;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    box-sizing: border-box;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+/* Subject Hover */
+
+.subject-card:hover {
+    border-color: #8b5cf6;
+
+    color: #6c3df5;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 5px 15px rgba(108, 61, 245, 0.10);
+}
+
+
+/* Selected Subject */
+
+.subject-card.active {
+    border-color: #6c3df5;
+
+    background: #6c3df5;
+
+    color: #ffffff;
+
+    box-shadow:
+        0 5px 15px rgba(108, 61, 245, 0.20);
+}
+
+
+/* ========================================
+   DIFFICULTY SECTION
+======================================== */
+
+.difficulty-title {
+    margin-top: 0 !important;
+    margin-bottom: 20px !important;
+
+    font-size: 26px !important;
+}
+
+
+/* ========================================
+   DIFFICULTY BUTTONS
+======================================== */
+
+.difficulty-buttons {
+    display: flex;
+
+    gap: 14px;
+
+    flex-wrap: wrap;
+
+    margin-bottom: 28px;
+}
+
+
+/* Individual difficulty button */
+
+.difficulty {
+    min-width: 105px;
+
+    padding: 14px 24px;
+
+    border: 2px solid #dfe1e7;
+
+    border-radius: 10px;
+
+    background: #ffffff;
+
+    color: #172033;
+
+    font-size: 17px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+/* Hover */
+
+.difficulty:hover {
+    border-color: #6c3df5;
+
+    color: #6c3df5;
+}
+
+
+/* Selected */
+
+.difficulty.active {
+    border-color: #6c3df5;
+
+    background: #6c3df5;
+
+    color: #ffffff;
+
+    box-shadow:
+        0 5px 15px rgba(108, 61, 245, 0.2);
+}
+
+
+/* ========================================
+   SELECTED INFORMATION
+======================================== */
+
+.selected-info {
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 50px;
+
+    margin: 10px 0 30px;
+
+    padding: 20px 22px;
+
+    border-radius: 12px;
+
+    background: #f5f2ff;
+
+    color: #172033;
+
+    font-size: 17px;
+
+    box-sizing: border-box;
+}
+
+.selected-info p {
+    margin: 0;
+}
+
+.selected-info strong {
+    font-weight: 700;
+}
+
+
+/* ========================================
+   START INTERVIEW BUTTON
+======================================== */
+
+.start-interview-btn {
+    padding: 16px 30px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #6c3df5,
+            #8b5cf6
+        );
+
+    color: #ffffff;
+
+    font-size: 18px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+/* Hover */
+
+.start-interview-btn:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 22px rgba(108, 61, 245, 0.3);
+}
+
+
+/* ========================================
+   RESPONSIVE - TABLET
+======================================== */
+
+@media (max-width: 1000px) {
+
+    .practice-page {
+        padding: 35px 30px;
+    }
+
+    .type-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .subject-grid {
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+    }
+}
+
+
+/* ========================================
+   RESPONSIVE - MOBILE
+======================================== */
+
+@media (max-width: 768px) {
+
+    .practice-page {
+        padding: 30px 20px;
+    }
+
+    .practice-header h1 {
+        font-size: 34px;
+    }
+
+    .practice-header p:last-child {
+        font-size: 17px;
+    }
+
+    .selection-card {
+        padding: 28px;
+    }
+
+    .selection-card h2 {
+        font-size: 23px;
+    }
+
+    .type-card {
+        min-height: 175px;
+
+        padding: 22px;
+    }
+
+    .type-card strong {
+        font-size: 19px;
+    }
+
+    .type-card small {
+        font-size: 15px;
+    }
+
+    .subject-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 12px;
+    }
+
+    .subject-card {
+        min-height: 58px;
+
+        padding: 12px;
+
+        font-size: 15px;
+    }
+
+    .selected-info {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 10px;
+    }
+}
+
+
+/* ========================================
+   RESPONSIVE - SMALL MOBILE
+======================================== */
+
+@media (max-width: 480px) {
+
+    .practice-page {
+        padding: 22px 15px;
+    }
+
+    .practice-header h1 {
+        font-size: 29px;
+    }
+
+    .practice-header p:last-child {
+        font-size: 16px;
+    }
+
+    .selection-card {
+        padding: 20px;
+    }
+
+    .selection-card h2 {
+        font-size: 21px;
+    }
+
+    .subject-grid {
+        grid-template-columns: 1fr;
+
+        gap: 10px;
+    }
+
+    .subject-card {
+        min-height: 55px;
+    }
+
+    .difficulty {
+        flex: 1;
+
+        min-width: 0;
+    }
+
+    .start-interview-btn {
+        width: 100%;
+    }
+}
