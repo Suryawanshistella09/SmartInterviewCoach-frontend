@@ -4,39 +4,38 @@ import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
 
 function Login() {
-
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     const navigate = useNavigate();
 
     const handleLogin = async (e) => {
-
         e.preventDefault();
 
-        // Remove old token and email before attempting login
+        // Remove old login data before attempting a new login
         localStorage.removeItem("token");
         localStorage.removeItem("userEmail");
 
         try {
-
             const response = await axios.post(
-                "http://localhost:8080/api/users/login",
+                `${import.meta.env.VITE_API_BASE_URL}/api/users/login`,
                 {
                     email: email,
                     password: password
                 }
             );
 
-            // Backend returns JWT directly
+            // Backend returns the JWT directly
             const token = response.data;
 
-            // Make sure the response is actually a JWT
+            // Validate JWT
             if (
                 typeof token !== "string" ||
                 token.split(".").length !== 3
             ) {
-                console.error("Login failed: the backend did not return a valid JWT.");
+                console.error(
+                    "Login failed: the backend did not return a valid JWT."
+                );
 
                 alert("Login failed. Invalid token received.");
                 return;
@@ -48,16 +47,32 @@ function Login() {
             // Store logged-in user's email
             localStorage.setItem("userEmail", email);
 
-            // Read user information from JWT
-            const payload = JSON.parse(
-                atob(token.split(".")[1])
-            );
+            // Decode JWT payload
+            let payload;
+
+            try {
+                payload = JSON.parse(
+                    atob(token.split(".")[1])
+                );
+            } catch (decodeError) {
+                console.error("Unable to decode JWT:", decodeError);
+
+                localStorage.removeItem("token");
+                localStorage.removeItem("userEmail");
+
+                alert("Login failed. Invalid token received.");
+                return;
+            }
 
             const role = payload.role;
 
+            console.log("Login successful");
+            console.log("User:", email);
+            console.log("Role:", role);
+
             alert("Login successful!");
 
-            // Redirect based on user role
+            // Redirect based on role
             if (role === "ADMIN") {
                 navigate("/admin-dashboard");
             } else {
@@ -65,7 +80,6 @@ function Login() {
             }
 
         } catch (error) {
-
             console.error("Login error:", error);
 
             // Remove login data if login fails
@@ -73,22 +87,20 @@ function Login() {
             localStorage.removeItem("userEmail");
 
             if (error.response) {
+                const message =
+                    typeof error.response.data === "string"
+                        ? error.response.data
+                        : error.response.data?.message ||
+                          "Invalid email or password";
 
-                alert(
-                    error.response.data ||
-                    "Invalid email or password"
-                );
-
+                alert(message);
             } else {
-
                 alert(
-                    "Backend server is not running"
+                    "Unable to connect to the backend server."
                 );
-
             }
         }
     };
-
 
     return (
         <div className="auth-page">
@@ -235,7 +247,7 @@ function Login() {
 
                         <div className="auth-switch">
 
-                            Don&apos;t have an account?{" "}
+                            Don't have an account?{" "}
 
                             <Link to="/register">
                                 Create one

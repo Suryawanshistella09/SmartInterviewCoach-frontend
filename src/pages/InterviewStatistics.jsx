@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api/axiosConfig";
 import { useNavigate } from "react-router-dom";
 import "./AdminDashboard.css";
 import "./InterviewStatistics.css";
@@ -21,15 +21,7 @@ function InterviewStatistics() {
 
             const token = localStorage.getItem("token");
 
-            const response = await axios.get(
-                "http://localhost:8080/api/interview-results",
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }
-            );
-
+           const response = await api.get("/api/interview-results");
             setResults(response.data);
 
         } catch (error) {

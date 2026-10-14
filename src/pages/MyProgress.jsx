@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../api/axiosConfig";
 import "./MyProgress.css";
 import useProgressSummary from "../hooks/useProgressSummary";
 
@@ -96,15 +96,8 @@ function MyProgress() {
             });
 
 
-            const requestConfig = {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            };
-
-            const interviewRequest = axios.get(
-                `http://localhost:8080/api/interview-results/user/${encodeURIComponent(email)}`,
-                requestConfig
+            const interviewRequest = api.get(
+                `/api/interview-results/user/${encodeURIComponent(email)}`
             )
                 .then((response) => {
                     setResults(Array.isArray(response.data) ? response.data : []);
@@ -118,9 +111,9 @@ function MyProgress() {
                     setInterviewHistoryError("Interview history could not be loaded.");
                 });
 
-            const codingRequest = axios.get(
-                "http://localhost:8080/api/coding/submissions/me",
-                requestConfig
+
+            const codingRequest = api.get(
+                "/api/coding/submissions/me"
             )
                 .then((response) => {
                     setCodingSubmissions(Array.isArray(response.data) ? response.data : []);
@@ -133,6 +126,7 @@ function MyProgress() {
                     console.error("Error loading coding history:", error);
                     setCodingHistoryError("Coding submission history could not be loaded.");
                 });
+
 
             Promise.all([interviewRequest, codingRequest])
                 .catch((error) => {
@@ -412,20 +406,21 @@ function MyProgress() {
                 <div className="sidebar-bottom">
 
 
-                   {/* SETTINGS */}
+                    {/* SETTINGS */}
 
-                     <button
-                           className="nav-item"
-                       onClick={() =>
-                        navigate("/settings")
-                               }
-                        >
+                    <button
+                        className="nav-item"
+                        onClick={() =>
+                            navigate("/settings")
+                        }
+                    >
 
-                       <span>⚙</span>
+                        <span>⚙</span>
 
-                  Settings
+                        Settings
 
-                  </button>
+                    </button>
+
 
                     {/* LOGOUT */}
 
@@ -897,51 +892,51 @@ function MyProgress() {
 
                             {historyActivities.map((activity) => (
 
-                                    <div
-                                        className="history-row"
-                                        key={activity.key}
-                                    >
+                                <div
+                                    className="history-row"
+                                    key={activity.key}
+                                >
 
 
-                                        <div className="history-activity-name">
-                                            <strong>{activity.type}</strong>
-                                            {activity.title && (
-                                                <span>{activity.title}</span>
-                                            )}
-                                        </div>
-
-
-                                        <span>{activity.difficulty}</span>
-
-
-                                        <span>{activity.questions}</span>
-
-
-                                        <strong
-                                            className={
-                                                activity.score >= 80
-                                                    ? "score-good"
-                                                    : activity.score >= 50
-                                                        ? "score-average"
-                                                        : "score-low"
-                                            }
-                                        >
-                                            {activity.score.toLocaleString(undefined, {
-                                                maximumFractionDigits: 1
-                                            })}%
-                                        </strong>
-
-
-                                        <span>
-
-                                            {formatLocalDateTime(activity.date)}
-
-                                        </span>
-
-
+                                    <div className="history-activity-name">
+                                        <strong>{activity.type}</strong>
+                                        {activity.title && (
+                                            <span>{activity.title}</span>
+                                        )}
                                     </div>
 
-                                ))}
+
+                                    <span>{activity.difficulty}</span>
+
+
+                                    <span>{activity.questions}</span>
+
+
+                                    <strong
+                                        className={
+                                            activity.score >= 80
+                                                ? "score-good"
+                                                : activity.score >= 50
+                                                    ? "score-average"
+                                                    : "score-low"
+                                        }
+                                    >
+                                        {activity.score.toLocaleString(undefined, {
+                                            maximumFractionDigits: 1
+                                        })}%
+                                    </strong>
+
+
+                                    <span>
+
+                                        {formatLocalDateTime(activity.date)}
+
+                                    </span>
+
+
+                                </div>
+
+                            ))}
 
 
                         </div>

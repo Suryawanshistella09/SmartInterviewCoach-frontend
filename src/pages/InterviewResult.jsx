@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../api/axiosConfig";
 import "./InterviewResult.css";
 
 function InterviewResult() {
@@ -109,28 +109,21 @@ function InterviewResult() {
 
             try {
 
-                const resultResponse =
-                    await axios.post(
-                        "http://localhost:8080/api/interview-results",
-                        {
-                            userEmail: userEmail,
-                            interviewType: interviewType,
-                            subject: subject,
-                            difficulty: difficulty,
-                            totalQuestions: totalQuestions,
-                            correctAnswers: correctAnswers,
-                            partialAnswers: partialAnswers,
-                            wrongAnswers: wrongAnswers,
-                            score: obtainedScore,
-                            percentage: percentage
-                        },
-                        {
-                            headers: {
-                                "Content-Type": "application/json",
-                                Authorization: `Bearer ${token}`
-                            }
-                        }
-                    );
+                const resultResponse = await api.post(
+    "/api/interview-results",
+    {
+        userEmail: userEmail,
+        interviewType: interviewType,
+        subject: subject,
+        difficulty: difficulty,
+        totalQuestions: totalQuestions,
+        correctAnswers: correctAnswers,
+        partialAnswers: partialAnswers,
+        wrongAnswers: wrongAnswers,
+        score: obtainedScore,
+        percentage: percentage
+    }
+);
 
                 console.log(
                     "Interview result saved successfully:",

@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../api/axiosConfig";
 import "./Profile.css";
 
 function Profile() {
-
     const navigate = useNavigate();
 
     const [user, setUser] = useState(null);
@@ -18,13 +17,11 @@ function Profile() {
     const [message, setMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
 
-
     // ============================
     // LOAD PROFILE
     // ============================
 
     useEffect(() => {
-
         const token = localStorage.getItem("token");
 
         if (!token) {
@@ -33,46 +30,33 @@ function Profile() {
         }
 
         try {
-
             const payload = JSON.parse(
                 atob(token.split(".")[1])
             );
 
             const email = payload.sub;
 
-            axios.get(
-                `http://localhost:8080/api/profile/${encodeURIComponent(email)}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }
+            api.get(
+                `/api/profile/${encodeURIComponent(email)}`
             )
-            .then((response) => {
+                .then((response) => {
+                    console.log(
+                        "Profile data:",
+                        response.data
+                    );
 
-                console.log(
-                    "Profile data:",
-                    response.data
-                );
+                    setUser(response.data);
+                    setLoading(false);
+                })
+                .catch((error) => {
+                    console.error(
+                        "Error loading profile:",
+                        error
+                    );
 
-                setUser(response.data);
-                setLoading(false);
-
-            })
-            .catch((error) => {
-
-                console.error(
-                    "Error loading profile:",
-                    error
-                );
-
-                setLoading(false);
-
-            });
-
-        }
-        catch (error) {
-
+                    setLoading(false);
+                });
+        } catch (error) {
             console.error(
                 "Invalid token:",
                 error
@@ -80,31 +64,25 @@ function Profile() {
 
             localStorage.removeItem("token");
             navigate("/login");
-
         }
-
     }, [navigate]);
-
 
     // ============================
     // LOGOUT
     // ============================
 
     const handleLogout = () => {
-
         localStorage.removeItem("token");
+        localStorage.removeItem("userEmail");
 
         navigate("/login");
-
     };
-
 
     // ============================
     // START EDITING
     // ============================
 
     const handleEditProfile = () => {
-
         setEditName(user.name);
         setEditEmail(user.email);
 
@@ -112,16 +90,13 @@ function Profile() {
         setErrorMessage("");
 
         setEditing(true);
-
     };
-
 
     // ============================
     // CANCEL EDIT
     // ============================
 
     const handleCancelEdit = () => {
-
         setEditName(user.name);
         setEditEmail(user.email);
 
@@ -129,57 +104,43 @@ function Profile() {
         setErrorMessage("");
 
         setEditing(false);
-
     };
-
 
     // ============================
     // SAVE PROFILE
     // ============================
 
     const handleSaveProfile = async () => {
-
         // Validate name
         if (!editName.trim()) {
-
             setErrorMessage(
                 "Name cannot be empty."
             );
 
             return;
-
         }
-
 
         // Validate email
         if (!editEmail.trim()) {
-
             setErrorMessage(
                 "Email cannot be empty."
             );
 
             return;
-
         }
-
 
         const token = localStorage.getItem("token");
 
         if (!token) {
-
             navigate("/login");
             return;
-
         }
 
-
         try {
-
             setSaving(true);
 
             setMessage("");
             setErrorMessage("");
-
 
             // Get current email from JWT
             const payload = JSON.parse(
@@ -188,121 +149,96 @@ function Profile() {
 
             const currentEmail = payload.sub;
 
-
             // Send updated profile to backend
-            const response = await axios.put(
-                `http://localhost:8080/api/profile/${encodeURIComponent(currentEmail)}`,
+            const response = await api.put(
+                `/api/profile/${encodeURIComponent(currentEmail)}`,
                 {
                     name: editName.trim(),
                     email: editEmail.trim()
-                },
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
                 }
             );
-
 
             console.log(
                 "Updated profile:",
                 response.data
             );
 
-
             // Update profile on screen
             setUser(response.data);
+
+            // Keep stored email in sync
+            localStorage.setItem(
+                "userEmail",
+                response.data.email
+            );
 
             setMessage(
                 "Profile updated successfully!"
             );
 
             setEditing(false);
-
-        }
-        catch (error) {
-
+        } catch (error) {
             console.error(
                 "Error updating profile:",
                 error
             );
 
-
             if (
                 error.response &&
                 error.response.data
             ) {
-
                 setErrorMessage(
                     typeof error.response.data === "string"
                         ? error.response.data
-                        : "Failed to update profile."
+                        : error.response.data?.message ||
+                          "Failed to update profile."
                 );
-
-            }
-            else {
-
+            } else {
                 setErrorMessage(
                     "Unable to update profile. Please try again."
                 );
-
             }
-
-        }
-        finally {
-
+        } finally {
             setSaving(false);
-
         }
-
     };
-
 
     // ============================
     // LOADING
     // ============================
 
     if (loading) {
-
         return (
             <div className="profile-loading">
                 Loading Profile...
             </div>
         );
-
     }
-
 
     // ============================
     // NO USER
     // ============================
 
     if (!user) {
-
         return (
             <div className="profile-loading">
                 Unable to load profile.
             </div>
         );
-
     }
-
 
     // ============================
     // PROFILE
     // ============================
 
     return (
-
         <div className="profile-layout">
-
 
             {/* =====================================
                 SIDEBAR
             ===================================== */}
 
             <aside className="profile-sidebar">
-
 
                 {/* LOGO */}
 
@@ -320,11 +256,9 @@ function Profile() {
 
                 </div>
 
-
                 {/* NAVIGATION */}
 
                 <nav className="profile-nav">
-
 
                     <button
                         onClick={() =>
@@ -335,7 +269,6 @@ function Profile() {
                         Dashboard
                     </button>
 
-
                     <button
                         onClick={() =>
                             navigate("/practice-interview")
@@ -344,7 +277,6 @@ function Profile() {
                         <span>▣</span>
                         Practice Interview
                     </button>
-
 
                     <button
                         onClick={() =>
@@ -355,7 +287,6 @@ function Profile() {
                         My Progress
                     </button>
 
-
                     <button className="profile-nav-active">
                         <span>◯</span>
                         Profile
@@ -363,16 +294,18 @@ function Profile() {
 
                 </nav>
 
-
                 {/* BOTTOM */}
 
                 <div className="profile-sidebar-bottom">
 
-                    <button>
+                    <button
+                        onClick={() =>
+                            navigate("/settings")
+                        }
+                    >
                         <span>⚙</span>
                         Settings
                     </button>
-
 
                     <button
                         className="profile-logout"
@@ -386,13 +319,11 @@ function Profile() {
 
             </aside>
 
-
             {/* =====================================
                 MAIN CONTENT
             ===================================== */}
 
             <main className="profile-main">
-
 
                 {/* TOP BAR */}
 
@@ -403,13 +334,14 @@ function Profile() {
                     <div className="profile-user-mini">
 
                         <button
-                      className="profile-notification"
-                     onClick={() => navigate("/settings")}
-                     title="Settings"
-                     >
-                          🔔
-                  </button>
-
+                            className="profile-notification"
+                            onClick={() =>
+                                navigate("/settings")
+                            }
+                            title="Settings"
+                        >
+                            🔔
+                        </button>
 
                         <div className="profile-mini-avatar">
 
@@ -419,7 +351,6 @@ function Profile() {
                             }
 
                         </div>
-
 
                         <div>
 
@@ -436,7 +367,6 @@ function Profile() {
                     </div>
 
                 </div>
-
 
                 {/* =====================================
                     PAGE HEADER
@@ -458,35 +388,27 @@ function Profile() {
 
                 </div>
 
-
                 {/* =====================================
                     SUCCESS / ERROR MESSAGE
                 ===================================== */}
 
                 {message && (
-
                     <div className="profile-success-message">
                         ✓ {message}
                     </div>
-
                 )}
 
-
                 {errorMessage && (
-
                     <div className="profile-error-message">
                         ⚠ {errorMessage}
                     </div>
-
                 )}
-
 
                 {/* =====================================
                     EDIT PROFILE FORM
                 ===================================== */}
 
                 {editing && (
-
                     <section className="edit-profile-card">
 
                         <div className="edit-profile-header">
@@ -504,7 +426,6 @@ function Profile() {
                             </div>
 
                         </div>
-
 
                         {/* NAME */}
 
@@ -525,7 +446,6 @@ function Profile() {
 
                         </div>
 
-
                         {/* EMAIL */}
 
                         <div className="edit-profile-field">
@@ -544,7 +464,6 @@ function Profile() {
                             />
 
                         </div>
-
 
                         {/* ROLE */}
 
@@ -566,7 +485,6 @@ function Profile() {
 
                         </div>
 
-
                         {/* BUTTONS */}
 
                         <div className="edit-profile-actions">
@@ -579,26 +497,21 @@ function Profile() {
                                 Cancel
                             </button>
 
-
                             <button
                                 className="save-profile-btn"
                                 onClick={handleSaveProfile}
                                 disabled={saving}
                             >
-
                                 {saving
                                     ? "Saving..."
                                     : "✓ Save Changes"
                                 }
-
                             </button>
 
                         </div>
 
                     </section>
-
                 )}
-
 
                 {/* =====================================
                     PROFILE HERO CARD
@@ -606,9 +519,7 @@ function Profile() {
 
                 <section className="profile-hero-card">
 
-
                     <div className="profile-hero-content">
-
 
                         {/* AVATAR */}
 
@@ -620,7 +531,6 @@ function Profile() {
                             }
 
                         </div>
-
 
                         {/* NAME */}
 
@@ -636,26 +546,21 @@ function Profile() {
 
                         </div>
 
-
                         {/* ROLE */}
 
                         <div className="student-badge">
                             🎓 {user.role}
                         </div>
 
-
                     </div>
 
-
                 </section>
-
 
                 {/* =====================================
                     ACCOUNT INFORMATION
                 ===================================== */}
 
                 <section className="account-card">
-
 
                     <div className="account-card-header">
 
@@ -673,9 +578,7 @@ function Profile() {
 
                     </div>
 
-
                     <div className="account-grid">
-
 
                         {/* NAME */}
 
@@ -699,7 +602,6 @@ function Profile() {
 
                         </div>
 
-
                         {/* EMAIL */}
 
                         <div className="account-item">
@@ -722,7 +624,6 @@ function Profile() {
 
                         </div>
 
-
                         {/* ROLE */}
 
                         <div className="account-item">
@@ -744,7 +645,6 @@ function Profile() {
                             </div>
 
                         </div>
-
 
                         {/* STATUS */}
 
@@ -769,11 +669,9 @@ function Profile() {
 
                         </div>
 
-
                     </div>
 
                 </section>
-
 
                 {/* =====================================
                     INTERVIEW COACH CARD
@@ -797,13 +695,11 @@ function Profile() {
 
                 </section>
 
-
                 {/* =====================================
                     ACTIONS
                 ===================================== */}
 
                 <div className="profile-actions">
-
 
                     <button
                         className="back-dashboard-btn"
@@ -814,7 +710,6 @@ function Profile() {
                         ← Back to Dashboard
                     </button>
 
-
                     <button
                         className="edit-profile-btn"
                         onClick={handleEditProfile}
@@ -824,13 +719,10 @@ function Profile() {
 
                 </div>
 
-
             </main>
 
         </div>
-
     );
-
 }
 
 export default Profile;

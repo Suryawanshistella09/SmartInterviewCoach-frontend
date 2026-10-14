@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
-import axios from "axios";
+import api from "../api/axiosConfig";
 import "./InterviewQuestion.css";
 
 function InterviewQuestion() {
@@ -79,15 +79,7 @@ function InterviewQuestion() {
 
 
                 // Get all questions from backend
-                const response = await axios.get(
-                    "http://localhost:8080/api/questions",
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`
-                        }
-                    }
-                );
-
+               const response = await api.get("/api/questions");
 
                 const allQuestions =
                     response.data;

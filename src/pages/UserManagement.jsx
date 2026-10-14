@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../api/axiosConfig";
 import "./UserManagement.css";
 
 function UserManagement() {
@@ -19,25 +19,22 @@ function UserManagement() {
             setLoading(true);
             setError("");
 
-            const token = localStorage.getItem("token");
-
-            const response = await axios.get(
-                "http://localhost:8080/api/users",
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }
+            const response = await api.get(
+                "/api/users"
             );
 
             setUsers(response.data);
 
         } catch (error) {
 
-            console.error("Error fetching users:", error);
+            console.error(
+                "Error fetching users:",
+                error
+            );
 
             setError(
                 error.response?.data ||
+                error.response?.data?.message ||
                 "Unable to load users."
             );
 
@@ -60,7 +57,9 @@ function UserManagement() {
 
         // Prevent deleting admin
         if (role === "ADMIN") {
-            alert("Admin account cannot be deleted.");
+            alert(
+                "Admin account cannot be deleted."
+            );
             return;
         }
 
@@ -74,28 +73,27 @@ function UserManagement() {
 
         try {
 
-            const token = localStorage.getItem("token");
-
-            await axios.delete(
-                `http://localhost:8080/api/users/${id}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }
+            await api.delete(
+                `/api/users/${id}`
             );
 
-            alert("User deleted successfully.");
+            alert(
+                "User deleted successfully."
+            );
 
             // Refresh users
             fetchUsers();
 
         } catch (error) {
 
-            console.error("Delete error:", error);
+            console.error(
+                "Delete error:",
+                error
+            );
 
             alert(
                 error.response?.data ||
+                error.response?.data?.message ||
                 "Unable to delete user."
             );
 
@@ -127,8 +125,13 @@ function UserManagement() {
                     </div>
 
                     <div>
-                        <h2>Smart Interview</h2>
-                        <span>Coach</span>
+                        <h2>
+                            Smart Interview
+                        </h2>
+
+                        <span>
+                            Coach
+                        </span>
                     </div>
 
                 </div>
@@ -152,7 +155,11 @@ function UserManagement() {
                     </button>
 
 
-                    <button onClick={() => navigate("/question-management")}>
+                    <button
+                        onClick={() =>
+                            navigate("/question-management")
+                        }
+                    >
                         <span>📝</span>
                         Question Management
                     </button>
@@ -199,7 +206,9 @@ function UserManagement() {
 
                     <div>
 
-                        <p>ADMIN PANEL</p>
+                        <p>
+                            ADMIN PANEL
+                        </p>
 
                         <h1>
                             User Management
@@ -219,6 +228,7 @@ function UserManagement() {
                         </div>
 
                         <div>
+
                             <strong>
                                 Administrator
                             </strong>
@@ -226,6 +236,7 @@ function UserManagement() {
                             <span>
                                 ADMIN
                             </span>
+
                         </div>
 
                     </div>
@@ -423,12 +434,16 @@ function UserManagement() {
                                                 </td>
 
                                                 <td>
+
                                                     <div className="user-name-cell">
 
                                                         <div className="user-small-avatar">
                                                             {user.name
-                                                                ? user.name.charAt(0).toUpperCase()
-                                                                : "U"}
+                                                                ? user.name
+                                                                    .charAt(0)
+                                                                    .toUpperCase()
+                                                                : "U"
+                                                            }
                                                         </div>
 
                                                         <strong>
@@ -436,6 +451,7 @@ function UserManagement() {
                                                         </strong>
 
                                                     </div>
+
                                                 </td>
 
                                                 <td>
