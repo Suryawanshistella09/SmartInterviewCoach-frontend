@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./PracticeInterview.css";
-import "./PracticeInterview.css";
 
 function PracticeInterview() {
 
@@ -10,6 +9,12 @@ function PracticeInterview() {
 
     const selectedType =
         location.state?.interviewType || "Technical";
+
+    const selectedRole =
+        location.state?.targetRole || "";
+
+    const [targetRole, setTargetRole] =
+        useState(selectedRole);
 
     const [interviewType, setInterviewType] =
         useState(selectedType);
@@ -22,11 +27,27 @@ function PracticeInterview() {
 
 
     // =====================================================
+    // TARGET JOB ROLES
+    // =====================================================
+
+    const targetRoles = [
+        "Java Developer",
+        "Full Stack Developer",
+        "Software Developer",
+        "Frontend Developer",
+        "Backend Developer",
+        "Python Developer",
+        "Data Analyst",
+        "Cloud Engineer",
+        "IoT Engineer"
+    ];
+
+
+    // =====================================================
     // SUBJECTS
     // =====================================================
 
     const subjects = {
-
         Technical: [
             "Java",
             "C / C++",
@@ -41,7 +62,6 @@ function PracticeInterview() {
             "Cyber Security",
             "IoT"
         ],
-
         Coding: [
             "Arrays",
             "Strings",
@@ -52,7 +72,6 @@ function PracticeInterview() {
             "Graphs",
             "Dynamic Programming"
         ],
-
         HR: [
             "Introduction",
             "Career",
@@ -61,13 +80,10 @@ function PracticeInterview() {
             "Leadership",
             "Problem Solving"
         ]
-
     };
 
-
     // Current subjects based on interview type
-    const currentSubjects =
-        subjects[interviewType] || [];
+    const currentSubjects = subjects[interviewType] || [];
 
 
     // =====================================================
@@ -89,6 +105,13 @@ function PracticeInterview() {
 
     const handleStartInterview = () => {
 
+        if (!targetRole) {
+
+            alert("Please select your target job role.");
+
+            return;
+        }
+
         if (!subject) {
 
             alert("Please select a subject before starting the interview.");
@@ -98,9 +121,12 @@ function PracticeInterview() {
 
 
         navigate(
-            "/interview-question",
+            interviewType === "Coding"
+                ? "/coding-practice"
+                : "/interview-question",
             {
                 state: {
+                    targetRole,
                     interviewType,
                     subject,
                     difficulty
@@ -143,8 +169,8 @@ function PracticeInterview() {
                     </h1>
 
                     <p>
-                        Choose your interview type, subject and
-                        difficulty level to begin practicing.
+                        Choose your target job role, interview type,
+                        subject and difficulty level to begin practicing.
                     </p>
 
                 </div>
@@ -159,6 +185,50 @@ function PracticeInterview() {
             <div className="practice-container">
 
                 <div className="selection-card">
+
+
+                    {/* =================================================
+                        TARGET JOB ROLE
+                    ================================================= */}
+
+                    <h2>
+                        Select Target Job Role
+                    </h2>
+
+                    <p className="selection-description">
+                        Choose the job role you are preparing for.
+                    </p>
+
+
+                    <div className="role-grid">
+
+                        {targetRoles.map((role) => (
+
+                            <button
+                                key={role}
+                                className={
+                                    targetRole === role
+                                        ? "role-card active"
+                                        : "role-card"
+                                }
+                                onClick={() =>
+                                    setTargetRole(role)
+                                }
+                            >
+
+                                <span className="role-icon">
+                                    💼
+                                </span>
+
+                                <strong>
+                                    {role}
+                                </strong>
+
+                            </button>
+
+                        ))}
+
+                    </div>
 
 
                     {/* =================================================
@@ -334,35 +404,38 @@ function PracticeInterview() {
                     <div className="selected-info">
 
                         <p>
+                            <strong>
+                                Target Role:
+                            </strong>{" "}
 
+                            {targetRole || "Not selected"}
+                        </p>
+
+
+                        <p>
                             <strong>
                                 Interview:
                             </strong>{" "}
 
                             {interviewType}
-
                         </p>
 
 
                         <p>
-
                             <strong>
                                 Subject:
                             </strong>{" "}
 
                             {subject || "Not selected"}
-
                         </p>
 
 
                         <p>
-
                             <strong>
                                 Difficulty:
                             </strong>{" "}
 
                             {difficulty}
-
                         </p>
 
                     </div>

@@ -2,13 +2,66 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./MyProgress.css";
+import useProgressSummary from "../hooks/useProgressSummary";
+
+function formatLocalDateTime(value) {
+    if (!value) {
+        return "—";
+    }
+
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) {
+        return "—";
+    }
+
+    return date.toLocaleString(undefined, {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "numeric",
+        minute: "2-digit"
+    });
+}
+
+function getDateSortValue(value) {
+    const timestamp = value ? new Date(value).getTime() : 0;
+    return Number.isNaN(timestamp) ? 0 : timestamp;
+}
+
+function toNonNegativeNumber(value) {
+    const number = Number(value ?? 0);
+    return Number.isFinite(number) && number > 0 ? number : 0;
+}
+
+function normalizeInterviewType(value) {
+    const type = String(value || "Interview");
+    const normalized = type.toLowerCase();
+
+    if (normalized.includes("coding")) {
+        return "Coding";
+    }
+
+    if (normalized.includes("hr")) {
+        return "HR";
+    }
+
+    if (normalized.includes("technical")) {
+        return "Technical";
+    }
+
+    return type;
+}
 
 function MyProgress() {
 
     const navigate = useNavigate();
+    const { summary, loading: statsLoading, error: statsError } = useProgressSummary();
 
     const [user, setUser] = useState(null);
     const [results, setResults] = useState([]);
+    const [codingSubmissions, setCodingSubmissions] = useState([]);
+    const [interviewHistoryError, setInterviewHistoryError] = useState("");
+    const [codingHistoryError, setCodingHistoryError] = useState("");
     const [loading, setLoading] = useState(true);
 
 
@@ -43,50 +96,55 @@ function MyProgress() {
             });
 
 
-            // =================================================
-            // GET USER INTERVIEW RESULTS
-            // =================================================
+            const requestConfig = {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            };
 
-            axios.get(
+            const interviewRequest = axios.get(
                 `http://localhost:8080/api/interview-results/user/${encodeURIComponent(email)}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }
+                requestConfig
             )
-            .then((response) => {
+                .then((response) => {
+                    setResults(Array.isArray(response.data) ? response.data : []);
+                })
+                .catch((error) => {
+                    if (error.response?.status === 401) {
+                        throw error;
+                    }
 
-                console.log(
-                    "My Progress results:",
-                    response.data
-                );
+                    console.error("Error loading interview history:", error);
+                    setInterviewHistoryError("Interview history could not be loaded.");
+                });
 
-                setResults(response.data);
+            const codingRequest = axios.get(
+                "http://localhost:8080/api/coding/submissions/me",
+                requestConfig
+            )
+                .then((response) => {
+                    setCodingSubmissions(Array.isArray(response.data) ? response.data : []);
+                })
+                .catch((error) => {
+                    if (error.response?.status === 401) {
+                        throw error;
+                    }
 
-                setLoading(false);
+                    console.error("Error loading coding history:", error);
+                    setCodingHistoryError("Coding submission history could not be loaded.");
+                });
 
-            })
-            .catch((error) => {
+            Promise.all([interviewRequest, codingRequest])
+                .catch((error) => {
+                    if (error.response?.status === 401) {
+                        localStorage.removeItem("token");
+                        navigate("/login");
+                        return;
+                    }
 
-                console.error(
-                    "Error loading progress:",
-                    error
-                );
-
-
-                if (error.response?.status === 401) {
-
-                    localStorage.removeItem("token");
-
-                    navigate("/login");
-
-                    return;
-                }
-
-                setLoading(false);
-
-            });
+                    console.error("Error loading progress:", error);
+                })
+                .finally(() => setLoading(false));
 
         }
         catch (error) {
@@ -109,46 +167,54 @@ function MyProgress() {
     // STATISTICS
     // =====================================================
 
-    const interviewsCompleted =
-        results.length;
+    const codingActivities = codingSubmissions.map((submission, index) => ({
+        key: `coding-${submission.submissionId ?? index}`,
+        dedupeKey: submission.submissionId != null
+            ? `Coding:${submission.submissionId}`
+            : null,
+        type: "Coding",
+        problemId: submission.problemId ?? null,
+        title: submission.problemTitle || `Problem #${submission.problemId}`,
+        difficulty: submission.problemDifficulty || "—",
+        questions: `${toNonNegativeNumber(submission.passedCases)}/${toNonNegativeNumber(submission.totalCases)} tests passed`,
+        questionCount: 1,
+        score: toNonNegativeNumber(submission.score),
+        date: submission.submittedAt,
+        sortDate: getDateSortValue(submission.submittedAt)
+    }));
 
+    const interviewActivities = results.map((result, index) => {
+        const type = normalizeInterviewType(result.interviewType);
 
-    const questionsAttempted =
-        results.reduce(
-            (total, result) =>
-                total +
-                Number(result.totalQuestions || 0),
-            0
-        );
+        return {
+            key: `interview-${result.id ?? index}`,
+            dedupeKey: result.id != null ? `${type}:${result.id}` : null,
+            type,
+            title: "",
+            difficulty: result.difficulty || "—",
+            questions: toNonNegativeNumber(result.totalQuestions),
+            questionCount: toNonNegativeNumber(result.totalQuestions),
+            score: toNonNegativeNumber(result.percentage),
+            date: result.completedAt,
+            sortDate: getDateSortValue(result.completedAt)
+        };
+    });
 
+    const seenActivityIds = new Set();
+    const historyActivities = [...codingActivities, ...interviewActivities]
+        .filter((activity) => {
+            if (!activity.dedupeKey) {
+                return true;
+            }
 
-    const averageScore =
-        results.length > 0
-            ? Math.round(
-                results.reduce(
-                    (total, result) =>
-                        total +
-                        Number(result.percentage || 0),
-                    0
-                ) / results.length
-            )
-            : 0;
+            if (seenActivityIds.has(activity.dedupeKey)) {
+                return false;
+            }
 
-
-    // =====================================================
-    // BEST SCORE
-    // =====================================================
-
-    const bestScore =
-        results.length > 0
-            ? Math.max(
-                ...results.map(
-                    result =>
-                        Number(result.percentage || 0)
-                )
-            )
-            : 0;
-
+            seenActivityIds.add(activity.dedupeKey);
+            return true;
+        })
+        .sort((first, second) => second.sortDate - first.sortDate);
 
     // =====================================================
     // WEAK AREAS & RECOMMENDATIONS
@@ -456,6 +522,12 @@ function MyProgress() {
                     SUMMARY CARDS
                 ================================================= */}
 
+                {statsError && (
+                    <div className="progress-summary-error" role="alert">
+                        {statsError}
+                    </div>
+                )}
+
                 <section className="progress-stats">
 
 
@@ -471,12 +543,16 @@ function MyProgress() {
                         <div>
 
                             <span>
-                                Interviews Completed
+                                Activities Completed
                             </span>
 
 
                             <h2>
-                                {interviewsCompleted}
+                                {statsLoading
+                                    ? "..."
+                                    : summary
+                                        ? summary.activitiesCompleted
+                                        : "—"}
                             </h2>
 
                         </div>
@@ -501,7 +577,11 @@ function MyProgress() {
 
 
                             <h2>
-                                {questionsAttempted}
+                                {statsLoading
+                                    ? "..."
+                                    : summary
+                                        ? summary.questionsAttempted
+                                        : "—"}
                             </h2>
 
                         </div>
@@ -526,7 +606,11 @@ function MyProgress() {
 
 
                             <h2>
-                                {averageScore}%
+                                {statsLoading
+                                    ? "..."
+                                    : summary
+                                        ? `${summary.averageScore}%`
+                                        : "—"}
                             </h2>
 
                         </div>
@@ -551,7 +635,11 @@ function MyProgress() {
 
 
                             <h2>
-                                {bestScore}%
+                                {statsLoading
+                                    ? "..."
+                                    : summary
+                                        ? `${Number(summary.bestScore).toLocaleString(undefined, { maximumFractionDigits: 1 })}%`
+                                        : "—"}
                             </h2>
 
                         </div>
@@ -593,7 +681,11 @@ function MyProgress() {
                         <div className="performance-score">
 
                             <div className="large-score">
-                                {averageScore}%
+                                {statsLoading
+                                    ? "..."
+                                    : summary
+                                        ? `${summary.averageScore}%`
+                                        : "—"}
                             </div>
 
 
@@ -607,7 +699,37 @@ function MyProgress() {
                         <div className="performance-message">
 
 
-                            {averageScore >= 80 ? (
+                            {statsLoading ? (
+
+                                <>
+
+                                    <h3>
+                                        Loading performance...
+                                    </h3>
+
+
+                                    <p>
+                                        Your saved activity is being loaded.
+                                    </p>
+
+                                </>
+
+                            ) : !summary ? (
+
+                                <>
+
+                                    <h3>
+                                        Performance unavailable
+                                    </h3>
+
+
+                                    <p>
+                                        {statsError || "Progress statistics could not be loaded."}
+                                    </p>
+
+                                </>
+
+                            ) : summary.averageScore >= 80 ? (
 
                                 <>
 
@@ -624,7 +746,7 @@ function MyProgress() {
 
                                 </>
 
-                            ) : averageScore >= 50 ? (
+                            ) : summary.averageScore >= 50 ? (
 
                                 <>
 
@@ -695,7 +817,19 @@ function MyProgress() {
                     </div>
 
 
-                    {results.length === 0 ? (
+                    {interviewHistoryError && (
+                        <div className="history-load-error">
+                            {interviewHistoryError}
+                        </div>
+                    )}
+
+                    {codingHistoryError && (
+                        <div className="history-load-error">
+                            {codingHistoryError}
+                        </div>
+                    )}
+
+                    {historyActivities.length === 0 ? (
 
                         <div className="empty-progress">
 
@@ -705,12 +839,12 @@ function MyProgress() {
 
 
                             <h3>
-                                No interviews yet
+                                No activity yet
                             </h3>
 
 
                             <p>
-                                Complete your first interview
+                                Complete an interview or submit a coding solution
                                 to start tracking your progress.
                             </p>
 
@@ -745,7 +879,7 @@ function MyProgress() {
 
 
                                 <span>
-                                    Questions
+                                    Questions / Test Cases
                                 </span>
 
 
@@ -761,60 +895,46 @@ function MyProgress() {
                             </div>
 
 
-                            {results
-                                .slice()
-                                .reverse()
-                                .map((result, index) => (
+                            {historyActivities.map((activity) => (
 
                                     <div
                                         className="history-row"
-                                        key={
-                                            result.id ||
-                                            index
-                                        }
+                                        key={activity.key}
                                     >
 
 
-                                        <strong>
-                                            {result.interviewType}
-                                        </strong>
+                                        <div className="history-activity-name">
+                                            <strong>{activity.type}</strong>
+                                            {activity.title && (
+                                                <span>{activity.title}</span>
+                                            )}
+                                        </div>
 
 
-                                        <span>
-                                            {result.difficulty}
-                                        </span>
+                                        <span>{activity.difficulty}</span>
 
 
-                                        <span>
-                                            {result.totalQuestions}
-                                        </span>
+                                        <span>{activity.questions}</span>
 
 
                                         <strong
                                             className={
-                                                Number(
-                                                    result.percentage
-                                                ) >= 80
+                                                activity.score >= 80
                                                     ? "score-good"
-                                                    : Number(
-                                                        result.percentage
-                                                    ) >= 50
+                                                    : activity.score >= 50
                                                         ? "score-average"
                                                         : "score-low"
                                             }
                                         >
-                                            {result.percentage}%
+                                            {activity.score.toLocaleString(undefined, {
+                                                maximumFractionDigits: 1
+                                            })}%
                                         </strong>
 
 
                                         <span>
 
-                                            {result.completedAt
-                                                ? new Date(
-                                                    result.completedAt
-                                                ).toLocaleDateString()
-                                                : "-"
-                                            }
+                                            {formatLocalDateTime(activity.date)}
 
                                         </span>
 

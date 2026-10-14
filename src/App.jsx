@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import InterviewQuestion from "./pages/InterviewQuestion";
+import CodingPractice from "./pages/CodingPractice";
 import InterviewResult from "./pages/InterviewResult";
 import MyProgress from "./pages/MyProgress";
 import Login from "./pages/Login";
@@ -11,6 +12,11 @@ import Profile from "./pages/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Home from "./pages/Home";
 import Settings from "./pages/Settings";
+import AdminDashboard from "./pages/AdminDashboard";
+import AdminProfile from "./pages/AdminProfile";
+import UserManagement from "./pages/UserManagement";
+import QuestionManagement from "./pages/QuestionManagement";
+import InterviewStatistics from "./pages/InterviewStatistics";
 
 function App() {
 
@@ -30,16 +36,59 @@ function App() {
                     element={<Login />}
                 />
 
-                   <Route
-                         path="/settings"
-                        element={
-                            <ProtectedRoute>
-                            <Settings /> 
-                            </ProtectedRoute>
-                          } 
-                / >
+                <Route
+                    path="/settings"
+                    element={
+                        <ProtectedRoute>
+                            <Settings />
+                        </ProtectedRoute>
+                    }
+                />
+                     
+                <Route
+                    path="/user-management"
+                    element={
+                        <ProtectedRoute>
+                          <UserManagement />
+                        </ProtectedRoute>
+                }
+           />
 
-                    
+                   <Route
+                    path="/admin-dashboard"
+                   element={
+                       <ProtectedRoute>
+                       <AdminDashboard />
+                       </ProtectedRoute>
+          }
+     />
+                      <Route
+                             path="/admin-profile"
+                             element={
+                          <ProtectedRoute>
+                           <AdminProfile />
+                           </ProtectedRoute>
+                    }
+                    />
+
+                    <Route
+                         path="/question-management"
+                         element={
+                            <ProtectedRoute>
+                              <QuestionManagement />
+                            </ProtectedRoute>
+              }
+      />
+
+                   <Route
+                        path="/interview-statistics"
+                        element={
+                         <ProtectedRoute>
+                         <InterviewStatistics />
+                         </ProtectedRoute>
+                    }
+               />
+
                 {/* Register */}
                 <Route
                     path="/register"
@@ -75,6 +124,15 @@ function App() {
                     element={
                         <ProtectedRoute>
                             <InterviewQuestion />
+                        </ProtectedRoute>
+                    }
+                />
+
+                <Route
+                    path="/coding-practice"
+                    element={
+                        <ProtectedRoute>
+                            <CodingPractice />
                         </ProtectedRoute>
                     }
                 />

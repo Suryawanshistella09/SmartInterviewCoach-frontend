@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Dashboard.css";
+import useProgressSummary from "../hooks/useProgressSummary";
 
 function Dashboard() {
 
@@ -9,11 +10,7 @@ function Dashboard() {
 
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
-
-    // ================= INTERVIEW RESULTS =================
-
-    const [results, setResults] = useState([]);
-    const [statsLoading, setStatsLoading] = useState(true);
+    const { summary, loading: statsLoading, error: statsError } = useProgressSummary();
 
 
     // =====================================================
@@ -93,41 +90,6 @@ function Dashboard() {
             });
 
 
-            // =================================================
-            // GET INTERVIEW RESULTS FOR LOGGED-IN USER
-            // =================================================
-
-            axios.get(
-                `http://localhost:8080/api/interview-results/user/${encodeURIComponent(email)}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }
-            )
-            .then((response) => {
-
-                console.log(
-                    "User interview results:",
-                    response.data
-                );
-
-                setResults(response.data);
-
-                setStatsLoading(false);
-
-            })
-            .catch((error) => {
-
-                console.error(
-                    "Error loading interview results:",
-                    error
-                );
-
-                setStatsLoading(false);
-
-            });
-
         }
         catch (error) {
 
@@ -143,130 +105,6 @@ function Dashboard() {
         }
 
     }, [navigate]);
-
-
-    // =====================================================
-    // CALCULATE DASHBOARD STATISTICS
-    // =====================================================
-
-    const interviewsCompleted =
-        results.length;
-
-
-    const questionsAttempted =
-        results.reduce(
-            (total, result) =>
-                total + Number(result.totalQuestions || 0),
-            0
-        );
-
-
-    const averageScore =
-        results.length > 0
-            ? Math.round(
-                results.reduce(
-                    (total, result) =>
-                        total + Number(result.percentage || 0),
-                    0
-                ) / results.length
-            )
-            : 0;
-
-
-    // =====================================================
-    // CURRENT STREAK
-    // =====================================================
-
-    const calculateStreak = () => {
-
-        if (results.length === 0) {
-            return 0;
-        }
-
-        const dates = results
-            .map((result) => {
-
-                if (!result.completedAt) {
-                    return null;
-                }
-
-                return new Date(
-                    result.completedAt
-                ).toDateString();
-
-            })
-            .filter(Boolean);
-
-
-        const uniqueDates = [
-            ...new Set(dates)
-        ];
-
-
-        if (uniqueDates.length === 0) {
-            return 0;
-        }
-
-
-        const dateObjects =
-            uniqueDates
-                .map((date) => new Date(date))
-                .sort(
-                    (a, b) => b - a
-                );
-
-
-        let streak = 1;
-
-
-        for (
-            let i = 0;
-            i < dateObjects.length - 1;
-            i++
-        ) {
-
-            const current =
-                dateObjects[i];
-
-            const previous =
-                dateObjects[i + 1];
-
-
-            const difference =
-                Math.round(
-                    (
-                        current - previous
-                    ) /
-                    (
-                        1000 *
-                        60 *
-                        60 *
-                        24
-                    )
-                );
-
-
-            if (difference === 1) {
-
-                streak++;
-
-            }
-            else {
-
-                break;
-
-            }
-
-        }
-
-
-        return streak;
-
-    };
-
-
-    const currentStreak =
-        calculateStreak();
 
 
     // =====================================================
@@ -612,6 +450,12 @@ function Dashboard() {
 
                 {/* ================= STATISTICS ================= */}
 
+                {statsError && (
+                    <div className="stats-error" role="alert">
+                        {statsError}
+                    </div>
+                )}
+
                 <section className="stats">
 
 
@@ -626,13 +470,15 @@ function Dashboard() {
                         <div>
 
                             <span>
-                                Interviews Completed
+                                Activities Completed
                             </span>
 
                             <h3>
                                 {statsLoading
                                     ? "..."
-                                    : interviewsCompleted}
+                                    : summary
+                                        ? summary.activitiesCompleted
+                                        : "—"}
                             </h3>
 
                         </div>
@@ -657,7 +503,9 @@ function Dashboard() {
                             <h3>
                                 {statsLoading
                                     ? "..."
-                                    : questionsAttempted}
+                                    : summary
+                                        ? summary.questionsAttempted
+                                        : "—"}
                             </h3>
 
                         </div>
@@ -682,7 +530,9 @@ function Dashboard() {
                             <h3>
                                 {statsLoading
                                     ? "..."
-                                    : `${averageScore}%`}
+                                    : summary
+                                        ? `${summary.averageScore}%`
+                                        : "—"}
                             </h3>
 
                         </div>
@@ -707,7 +557,9 @@ function Dashboard() {
                             <h3>
                                 {statsLoading
                                     ? "..."
-                                    : `${currentStreak} days`}
+                                    : summary
+                                        ? `${summary.currentStreak} ${summary.currentStreak === 1 ? "day" : "days"}`
+                                        : "—"}
                             </h3>
 
                         </div>
@@ -736,11 +588,6 @@ function Dashboard() {
                             </h2>
 
                         </div>
-
-
-                        <span>
-                            View all →
-                        </span>
 
                     </div>
 

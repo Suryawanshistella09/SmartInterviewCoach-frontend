@@ -402,9 +402,13 @@ function Profile() {
 
                     <div className="profile-user-mini">
 
-                        <div className="profile-notification">
-                            🔔
-                        </div>
+                        <button
+                      className="profile-notification"
+                     onClick={() => navigate("/settings")}
+                     title="Settings"
+                     >
+                          🔔
+                  </button>
 
 
                         <div className="profile-mini-avatar">

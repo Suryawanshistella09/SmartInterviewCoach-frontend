@@ -28,8 +28,6 @@ function Login() {
                 }
             );
 
-            console.log("Login response:", response.data);
-
             // Backend returns JWT directly
             const token = response.data;
 
@@ -38,10 +36,7 @@ function Login() {
                 typeof token !== "string" ||
                 token.split(".").length !== 3
             ) {
-                console.error(
-                    "Invalid JWT received:",
-                    token
-                );
+                console.error("Login failed: the backend did not return a valid JWT.");
 
                 alert("Login failed. Invalid token received.");
                 return;
@@ -53,19 +48,21 @@ function Login() {
             // Store logged-in user's email
             localStorage.setItem("userEmail", email);
 
-            console.log(
-                "JWT stored:",
-                localStorage.getItem("token")
+            // Read user information from JWT
+            const payload = JSON.parse(
+                atob(token.split(".")[1])
             );
 
-            console.log(
-                "User email stored:",
-                localStorage.getItem("userEmail")
-            );
+            const role = payload.role;
 
             alert("Login successful!");
 
-            navigate("/dashboard");
+            // Redirect based on user role
+            if (role === "ADMIN") {
+                navigate("/admin-dashboard");
+            } else {
+                navigate("/dashboard");
+            }
 
         } catch (error) {
 
@@ -95,80 +92,163 @@ function Login() {
 
     return (
         <div className="auth-page">
+
             <div className="auth-shell">
+
                 <div className="auth-visual">
-                    <div className="auth-pill">Welcome back</div>
+
+                    <div className="auth-pill">
+                        Welcome back
+                    </div>
 
                     <h1>
                         Prepare smarter.
-                        <span>Practice better.</span>
+                        <span>
+                            Practice better.
+                        </span>
                     </h1>
 
                     <p>
-                        Track your progress, sharpen your answers, and build the confidence to ace your next interview.
+                        Track your progress, sharpen your answers,
+                        and build the confidence to ace your next interview.
                     </p>
 
                     <div className="auth-visual-card">
+
                         <div className="mini-header">
+
                             <div className="auth-mini-logo">
-                                <div className="auth-mini-logo-badge">SC</div>
+
+                                <div className="auth-mini-logo-badge">
+                                    SC
+                                </div>
+
                                 Smart Interview Coach
+
                             </div>
-                            <span className="status-tag">Live</span>
+
+                            <span className="status-tag">
+                                Live
+                            </span>
+
                         </div>
 
                         <ul className="visual-checklist">
-                            <li>AI-powered interview practice</li>
-                            <li>Detailed feedback insights</li>
-                            <li>Progress tracking every week</li>
+
+                            <li>
+                                AI-powered interview practice
+                            </li>
+
+                            <li>
+                                Detailed feedback insights
+                            </li>
+
+                            <li>
+                                Progress tracking every week
+                            </li>
+
                         </ul>
+
                     </div>
+
                 </div>
 
+
                 <div className="auth-form-panel">
+
                     <div className="auth-card">
+
                         <div className="auth-brand">
-                            <div className="auth-brand-badge">SC</div>
-                            <span>Smart Interview Coach</span>
+
+                            <div className="auth-brand-badge">
+                                SC
+                            </div>
+
+                            <span>
+                                Smart Interview Coach
+                            </span>
+
                         </div>
 
-                        <h2 className="auth-title">Login</h2>
-                        <p className="auth-subtitle">Access your prep dashboard and continue improving.</p>
 
-                        <form onSubmit={handleLogin} className="auth-form">
+                        <h2 className="auth-title">
+                            Login
+                        </h2>
+
+                        <p className="auth-subtitle">
+                            Access your prep dashboard and continue improving.
+                        </p>
+
+
+                        <form
+                            onSubmit={handleLogin}
+                            className="auth-form"
+                        >
+
                             <div className="auth-field">
-                                <label>Email</label>
+
+                                <label>
+                                    Email
+                                </label>
+
                                 <input
                                     type="email"
                                     value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
+                                    onChange={(e) =>
+                                        setEmail(e.target.value)
+                                    }
                                     placeholder="Enter your email"
                                     required
                                 />
+
                             </div>
 
+
                             <div className="auth-field">
-                                <label>Password</label>
+
+                                <label>
+                                    Password
+                                </label>
+
                                 <input
                                     type="password"
                                     value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
+                                    onChange={(e) =>
+                                        setPassword(e.target.value)
+                                    }
                                     placeholder="Enter your password"
                                     required
                                 />
+
                             </div>
 
-                            <button type="submit" className="auth-button">
+
+                            <button
+                                type="submit"
+                                className="auth-button"
+                            >
                                 Login
                             </button>
+
                         </form>
 
+
                         <div className="auth-switch">
-                            Don&apos;t have an account? <Link to="/register">Create one</Link>
+
+                            Don&apos;t have an account?{" "}
+
+                            <Link to="/register">
+                                Create one
+                            </Link>
+
                         </div>
+
                     </div>
+
                 </div>
+
             </div>
+
         </div>
     );
 }
